@@ -1,5 +1,15 @@
-# pixruler
-A simple pixel ruler written in Python, using Tk.
+# Pixel Ruler
+
+Based on following repositiy:
+    https://github.com/Kitchi/pixruler.git by Kitchi
+
+
+
+
+
+# Introduction
+
+A simple pixel ruler written in ('pure') Python, using Tk.
 
 I have tried to base this on "pure" Python as far as I can, so I will not
 be porting it to Qt or GTK anytime soon. Window compositing will have to
@@ -13,12 +23,23 @@ I'm using this project to learn some basic Tcl/Tk so once I figure out
 better ways of doing things, I'll incorporate them in here.
 
 
-Installation
+# Installation
 ------------
 Add the folder containing the files to your PYTHONPATH variable, and/or
 navigate to the folder and run pixruler.py like
 
     python pixruler.py
 
-NOTE: You will have to have Python 2 installed with Tk support. In some 
-newer distros (Arch), the Python 2 interpreter is called `python2`. 
+<del>NOTE: You will have to have Python 2 installed with Tk support. In some 
+newer distros (Arch), the Python 2 interpreter is called `python2`. </del>
+
+
+# Further extensions to be implemented
+
+- hold a key (e.g. "shift") so lock one dimension x or y so that there is a clear horicontal or vertical line
+- calculate another unit regarding a reference
+
+
+
+
+
