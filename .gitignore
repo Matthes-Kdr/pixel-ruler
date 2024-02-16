@@ -58,3 +58,5 @@ target/
 
 # Swap files
 *.swp
+
+.vscode
