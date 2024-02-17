@@ -4,6 +4,9 @@ Defines the class that does the line drawing with the callback functions
 
 from math import hypot
 
+import tkinter as tk
+
+
 class DrawLine:
 
    def __init__(self, canvas):
@@ -210,6 +213,8 @@ class DrawLine:
 
 
 
+
+
    def get_scaled_meaning(self, dist:float) -> str:
 
 
@@ -247,7 +252,12 @@ class DrawLine:
       # print("Distance: % 7.3f, delta X: % 4d, delta Y: % 4d" % (dist, dx, dy))
 
       if self.watch_for_scale:
+         
+         # self.input_required.set(True)  # Set the flag to require input
+         
          self.set_scale(dist)
+
+         # self.canvas.wait_variable(self.input_required)  # Wait for input
 
 
       
