@@ -54,9 +54,20 @@ canvas   = tk.Canvas(root, width=200, height=200)
 line  = drawLine(canvas)
 
 # Define the callback functions on the canvas object
+
+# Start of line:
 canvas.bind("<Button-1>", line.onclick_handler)
-canvas.bind("<B1-Motion>", line.ondrag_handler)
-canvas.bind("<ButtonRelease-1>", line.onrelease_handler)
+
+# While Drawing:
+canvas.bind("<B1-Motion>", line.ondrag_handler) # usual mode
+
+canvas.bind("<Shift-B1-Motion>", line.ondrag_handler_1d) # locked mode for 1D-lines
+
+
+# End of line:
+canvas.bind("<ButtonRelease-1>", line.onrelease_handler) # usual mode
+canvas.bind("<Shift-ButtonRelease-1>", line.onrelease_handler_1d) # locked mode for 1D-lines
+
 
 # TEST:
 # canvas.bind("<Shift-B1-Motion>", line.onrelease_handler)
