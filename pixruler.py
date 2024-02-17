@@ -17,17 +17,21 @@ import tkinter as tk
 
 
 
-
+DEBUG = 1
 
 def modify_window_visibility():
    """
    Make the window translucent 
    so that it can be put in the foreground on  top of other windows.
    """
-
+   
    # Make the window translucent
    root.wait_visibility(root)
    root.configure(background='white')
+   
+   if DEBUG:
+      return
+   
    root.wm_attributes('-alpha', 0.5)
 
 
