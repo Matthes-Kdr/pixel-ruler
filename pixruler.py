@@ -8,7 +8,11 @@ Usage:
    This script measures the distance between two consecutive clicks of the
    mouse in pixels and reports it.
 
-   Hold the Shift-Key while drawing by moving the mouse to lock one dimension. So you can get horicontal or vertical lines easyly.
+   Additional functions:
+
+   - Hold the 'Shift'-Key while drawing by moving the mouse to lock one dimension. So you can get horicontal or vertical lines easyly.
+
+   - Press 'F5'-Key for draw a line as a reference scale. After drawing prompt the meant distance into the terminal (e.g. "50*mm"). All distances of the following lines will be converted into this scale as well. To reset scale: Press 'F5'-Key again and just click on the window.
 """
 
 from sys       import argv
