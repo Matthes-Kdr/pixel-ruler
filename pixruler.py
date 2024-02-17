@@ -12,14 +12,14 @@ Usage:
 """
 
 from sys       import argv
-from drawLines import drawLine
+from drawLines import DrawLine
 from math      import hypot
 import tkinter as tk
 # import Tkinter as tk
 
 
 
-DEBUG = 0
+DEBUG = 1
 
 def modify_window_visibility():
    """
@@ -44,9 +44,23 @@ def show_help():
 
 
 
-def on_key(event):
+def key_handler(event, line:DrawLine):
+
    if event.keysym == 'F1':
       show_help()
+
+   elif event.keysym == "Escape":
+      # TODO: Clear and remove all lines or generate a new window (see #3)
+      print("Functionality not available yet. See Issue #3.")
+   
+   elif event.keysym == "F5":
+      # Take a scale:
+      # Set a flag for line object:
+      line.watch_for_scale = True
+      print("Draw the line for a distance which should be use as a known reference. For resetting / removing scale reference just click once to generate a line with zero distance...")
+
+
+
 
 
 # def simulate_f1_key():
@@ -67,12 +81,13 @@ modify_window_visibility()
 canvas   = tk.Canvas(root, width=200, height=200)
 
 # Initialize the line drawing object
-line  = drawLine(canvas)
+line  = DrawLine(canvas)
 
 # Define the callback functions on the canvas object
 
 # Bind the virtual F1 key to print the help-text to terminal:
-root.bind("<Key>", on_key)
+# root.bind("<Key>", key_handler)
+root.bind("<Key>", lambda event: key_handler(event, line))
 
 
 
