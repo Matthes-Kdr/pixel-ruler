@@ -80,19 +80,20 @@ class drawLine:
 
 
 
-   def onrelease_handler(self, event):
-      if self.line is not None:
-         self.canvas.delete(self.line)
 
 
 
-      # Handle button release behaviour
-      self.canvas.create_line(self.start[0], self.start[1], event.x, event.y)
-      
-      self.end = (event.x, event.y)
 
-      dist, dx, dy = self.distance(self.start, self.end)
-      print("Distance: % 7.3f, delta X: % 4d, delta Y: % 4d" % (dist, dx, dy))
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -128,18 +129,49 @@ class drawLine:
 
 
 
-   def onrelease_handler_1d(self, event):
+
+
+
+
+
+
+
+
+
+
+
+
+   def onrelease_handler_general(self, event, lock=False):
+
       if self.line is not None:
          self.canvas.delete(self.line)
 
+
       # Calculate the current deltas to decide which coordinate to lock:
-      x_temp_end, y_temp_end = self.calculate_current_end(event, lock=True)
+      x_temp_end, y_temp_end = self.calculate_current_end(event, lock=lock)
+
+
 
       # Handle button release behaviour
       self.canvas.create_line(self.start[0], self.start[1], x_temp_end, y_temp_end)
-      
+
+
       self.end = (x_temp_end, y_temp_end)
 
       dist, dx, dy = self.distance(self.start, self.end)
       print("Distance: % 7.3f, delta X: % 4d, delta Y: % 4d" % (dist, dx, dy))
+   
 
+
+
+
+
+   def onrelease_handler_1d(self, event):
+
+      self.onrelease_handler_general(event, lock=True)
+
+
+
+   def onrelease_handler(self, event):
+
+      self.onrelease_handler_general(event, lock=False)
