@@ -4,8 +4,6 @@ Defines the class that does the line drawing with the callback functions
 
 from math import hypot
 
-import tkinter as tk
-
 
 class DrawLine:
 
@@ -30,96 +28,62 @@ class DrawLine:
       deltay = end[1] - beg[1]
 
       return hypot(deltax, deltay), deltax, deltay
+   
+
+
 
    def onclick_handler(self, event):
-      # Handle mouse click event by storing coordinates
+      """
+      Handle mouse click event by storing coordinates
+      """
       self.start = (event.x, event.y)
    
 
 
 
+   def ondrag_handler(self, event, lock_dimension=False):
+      """
+      Callback-Function for event: dragging mouse while pressed button.
+      Line should appear on the screen and connenct the current mouse location 
+      with the start-position at the time of the click.
 
+      Args:
+          event: event
+          lock_dimension (bool, optional): True if only horicontal OR vertical lines should be generated. Defaults to False.
 
-   def ondrag_handler(self, event):
-      if self.start is not None:
-         # Erase the old line before drawing new one
-         if self.line is not None:
-            self.canvas.delete(self.line)
-
-         # Handle dragging by continuously redrawing line
-         self.line = self.canvas.create_line(self.start[0], self.start[1], event.x, event.y)
-      else:
-         msg = "Something went wrong, the initial co-ordinates of the line"
-         msg = msg + " have not been specified."
-         raise TypeError(msg)
-
-
-   def ondrag_handler_1d(self, event):
-      
+      Raises:
+          TypeError: when no start-point can be found.
+      """
       
       if self.start is not None:
          # Erase the old line before drawing new one
          if self.line is not None:
             self.canvas.delete(self.line)
 
-
-
-
          # Handle dragging by continuously redrawing line
-      
       
          # Calculate the current deltas to decide which coordinate to lock:
-         x_temp_end, y_temp_end = self.calculate_current_end(event, lock=True)
+         x_temp_end, y_temp_end = self.calculate_current_end(event, lock_dimension=lock_dimension)
 
-
-         # draw the 1D-linie:
+         # draw the linie:
          self.line = self.canvas.create_line(self.start[0], self.start[1], x_temp_end, y_temp_end)
          
-      
-      
       else:
          msg = "Something went wrong, the initial co-ordinates of the line"
          msg = msg + " have not been specified."
          raise TypeError(msg)
 
+   
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   def calculate_current_end(self, event, lock=False):
+   def calculate_current_end(self, event, lock_dimension=False):
       """
-      Calculate the current deltas to decide which coordinate to lock.
+      Calculate the current deltas to the last start-point 
+      to decide which coordinate to lock.
       """
       
-      if not lock:
+      if not lock_dimension:
          return event.x, event.y
 
       x_temp_end, y_temp_end = event.x, event.y
@@ -140,18 +104,15 @@ class DrawLine:
 
 
 
-
-
-
-
-
-
-
    def reset_scale(self):
-      # Reset scale:
+      """
+      Reset the current scale reference.
+      """
       self.scale_factor = None
       self.scale_unit = None
       print("Scale has been resetted and removed.")
+
+
 
 
    def set_scale(self, dist):
@@ -194,11 +155,10 @@ class DrawLine:
          self.set_scale(dist)
          return
 
-      # if value == 0:
-      #    self.reset_scale()
-      #    return
-
-      # Calculation of factor and reset:
+      # =============================================================================
+      #### # Calculation of factor and printing: ####
+      # =============================================================================
+      
 
       self.scale_factor = value / dist
       self.scale_unit = unit
@@ -216,30 +176,45 @@ class DrawLine:
 
 
    def get_scaled_meaning(self, dist:float) -> str:
+      """
+      Use the current scale reference to convert the pixel distance to the user-defined-unit.
 
+      Args:
+          dist (float): distance (in pixel) to convert
+
+      Returns:
+          str: Additional Text with distance in converted unit.
+      """
 
       if not self.scale_factor:
          return ""
       
       converted_dist = self.scale_factor * dist
-      
       text = ", distance corresponds to {:.3f} {}".format(converted_dist, self.scale_unit)
-
-                                          
       return text
    
 
 
 
-   def onrelease_handler_general(self, event, lock=False):
+   def onrelease_handler(self, event, lock_dimension=False):
+      """
+      Callback-function which is called when mouse-button is released.
+      Calculate the current end points of the line, 
+      create the line and calculate the distance in pixel 
+      and (if scale reference has been provided) in the user defined unit.
+      Print these results to terminal.
+
+      Args:
+          event: Tk-event
+          lock_dimension (bool, optional): True if only horicontal OR vertical lines should be generated. Defaults to False.
+      """
 
       if self.line is not None:
          self.canvas.delete(self.line)
 
 
       # Calculate the current deltas to decide which coordinate to lock:
-      x_temp_end, y_temp_end = self.calculate_current_end(event, lock=lock)
-
+      x_temp_end, y_temp_end = self.calculate_current_end(event, lock_dimension=lock_dimension)
 
 
       # Handle button release behaviour
@@ -249,20 +224,9 @@ class DrawLine:
       self.end = (x_temp_end, y_temp_end)
 
       dist, dx, dy = self.distance(self.start, self.end)
-      # print("Distance: % 7.3f, delta X: % 4d, delta Y: % 4d" % (dist, dx, dy))
 
       if self.watch_for_scale:
-         
-         # self.input_required.set(True)  # Set the flag to require input
-         
          self.set_scale(dist)
-
-         # self.canvas.wait_variable(self.input_required)  # Wait for input
-
-
-      
-      # converted_for_scale = "Distance corresponds to {}".format(self.get_scaled_meaning(dist))
-
 
       text = "Distance: {: 7.3f}, delta X: {: 4d}, delta Y: {: 4d}{}".format(
          dist, dx, dy, self.get_scaled_meaning(dist)
@@ -275,13 +239,10 @@ class DrawLine:
 
 
 
-
-   def onrelease_handler_1d(self, event):
-
-      self.onrelease_handler_general(event, lock=True)
-
+   # # OBSOLETE if additional parameter is passed directly via lambda-function:
+   # def onrelease_handler_1d(self, event):
+   #    self.onrelease_handler_general(event, lock=True)
 
 
-   def onrelease_handler(self, event):
-
-      self.onrelease_handler_general(event, lock=False)
+   # def onrelease_handler(self, event):
+   #    self.onrelease_handler_general(event, lock=False)

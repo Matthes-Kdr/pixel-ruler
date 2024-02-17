@@ -1,15 +1,32 @@
 # Pixel Ruler
 
 
+> Jump to the screenshots in [Usage screenshots](#usage-screenshots) to get an overview without many words.
 
 
-> This project is based on following repositiy: https://github.com/Kitchi/pixruler.git by Kitchi and has been modified to implement more functions.
+- [Pixel Ruler](#pixel-ruler)
+- [Introduction](#introduction)
+- [Usage](#usage)
+  - [General Usage](#general-usage)
+  - [Additional Functions](#additional-functions)
+  - [Usage screenshots](#usage-screenshots)
+- [Installation and Prerequisites](#installation-and-prerequisites)
+- [Further extension options](#further-extension-options)
+
+
+
+
 
 
 # Introduction
 
 
-A simple pixel ruler written in ('pure') Python, using Tk without further dependencies or third-party-libraries.
+A simple pixel ruler written in ('pure') Python, using Tk without further dependencies or third-party-packages.
+
+> This project is based on following repositiy: https://github.com/Kitchi/pixruler.git by Kitchi and has been modified to implement more functions.
+
+
+
 
 
 # Usage
