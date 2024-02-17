@@ -157,7 +157,7 @@ class DrawLine:
    def set_scale(self, dist):
       """
       Ask user to input the meaning of the measured distance
-      (value and optional unit, seperated by '*') ,
+      (value and optional unit, seperated by single whitespace) ,
       Check entry for validation and call this func recursive if not valid,
       if valid: calculate and store the scale_factor into the object.
 
@@ -176,10 +176,10 @@ class DrawLine:
          return
 
 
-      entry = input("\nGive the meaning (size > 0) of the last measured line, if you want with a unit after a '*' Symbol:\n> ")
+      entry = input("\nGive the meaning (size > 0) of the last measured line, if you want with a unit after a single whitespace:\n> ")
       
-      if "*" in entry:
-         value, unit = entry.split("*")
+      if " " in entry:
+         value, unit = entry.split(" ")
       else:
          value = entry
          unit = "user_defined_unit"
