@@ -13,6 +13,8 @@ Usage:
    - Hold the 'Shift'-Key while drawing by moving the mouse to lock one dimension. So you can get horicontal or vertical lines easyly.
 
    - Press 'F5'-Key for draw a line as a reference scale. After drawing prompt the meant distance into the terminal (e.g. "50 mm"). All distances of the following lines will be converted into this scale as well. To reset scale: Press 'F5'-Key again and just click on the window.
+
+   - Press "esc" -Key to delete all lines on the canvas.
 """
 
 from sys import argv
@@ -51,7 +53,7 @@ def show_help():
 
 
 
-def key_handler(event, line:DrawLine):
+def key_handler(event, line:DrawLine, canvas:tk.Canvas):
    """
    Check if any specific key is pressed.
    Keys with special meanings:
@@ -76,8 +78,8 @@ def key_handler(event, line:DrawLine):
 
 
    elif event.keysym == "Escape":
-      # TODO: Clear and remove all lines or generate a new window (see #3)
-      print("Function to clear all lines is not available yet. See Issue #3.")
+      print("Clearing all lines...")
+      canvas.delete("all")
    
 
 def define_keybindings(root:tk.Tk, canvas:tk.Canvas, line:DrawLine):
@@ -98,7 +100,7 @@ def define_keybindings(root:tk.Tk, canvas:tk.Canvas, line:DrawLine):
    
    # Bind the virtual F1 key to print the help-text to terminal:
    # pass line as well for updating flag-objectvariables if F5 has been pressed:
-   root.bind("<Key>", lambda event: key_handler(event, line))
+   root.bind("<Key>", lambda event: key_handler(event, line, canvas))
 
 
    # Start of line: (mouse-left-click)
