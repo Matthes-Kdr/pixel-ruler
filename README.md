@@ -49,6 +49,9 @@ the drawned line will be printed on the terminal.
   - To update this scale: Press 'F5'-Key again and draw a new line as reference.
   - To reset (remove) this scale: Press 'F5'-Key again and just click on the window.
 
+- Clear window from all lines
+   - Press **'esc'-Key** to delete all lines on the canvas.
+   - a set scale reference will not be removed thereby.
 
 ## Usage screenshots
 
@@ -84,10 +87,10 @@ To start the script navigate to the folder with the files and run pixruler.
 
 # Further extension options
 
-- Function to clear window from all drawned lines
+- [X] Function to clear window from all drawned lines
 
-- Function to sum the distances of multiple lines
+- [ ] Function to sum (or/and subtract) the distances of multiple lines (e.g. while pressing "+" or "-" key)
 
-- Function to label each line with its distance
+- [ ] Function to label each line with its distance
 
 
