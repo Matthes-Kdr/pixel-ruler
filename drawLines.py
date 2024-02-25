@@ -19,6 +19,9 @@ class DrawLine:
       self.scale_unit = None
 
 
+      self.display_label = False
+
+
    def distance(self, beg, end):
       """
       Calculate distance in pixels between start and end (Pythagoras)
@@ -175,6 +178,28 @@ class DrawLine:
 
 
 
+   def get_scaled_value(self, dist:float) -> float:
+      """
+      Use the current scale reference to convert the pixel distance to the user-defined-unit.
+      
+
+      Args:
+          dist (float): distance (in pixel) to convert
+
+      Returns:
+          float: converted value
+      """
+      if not self.scale_factor:
+         return dist
+      
+
+      return self.scale_factor * dist
+
+
+
+
+
+
    def get_scaled_meaning(self, dist:float) -> str:
       """
       Use the current scale reference to convert the pixel distance to the user-defined-unit.
@@ -189,7 +214,7 @@ class DrawLine:
       if not self.scale_factor:
          return ""
       
-      converted_dist = self.scale_factor * dist
+      converted_dist = self.get_scaled_value(dist)
       text = ", distance corresponds to {:.3f} {}".format(converted_dist, self.scale_unit)
       return text
    
@@ -234,7 +259,65 @@ class DrawLine:
 
       print(text)         
 
-   
+      if self.display_label:
+         self.label_line(dist)
+
+
+
+   def label_line(self, dist:float):
+      """
+      Add a text with the distance of the last line to the canvas.
+      Use the value for the user-defined-unit if it has been provided by the user.
+
+      Args:
+          dist (float): value of the distance (in pixels)
+      """
+
+      # Calculate the middle of the line as the position to locate the label:
+      x_start, y_start = self.start
+      x_end, y_end = self.end
+
+      x_mid = (x_end + x_start) / 2
+      y_mid = (y_end + y_start) / 2
+
+
+      x = x_mid
+      y = y_mid
+
+      # Build text with distance (scaled if provided) and unit (if provided)
+      fractional_digits = 1 # Count of digits to display
+
+      unit = ""
+      if self.scale_unit:
+
+         dist = self.get_scaled_value(dist)
+         unit = " " + self.scale_unit
+
+      label = str(round(dist, fractional_digits))
+      label = "{}{}".format(label, unit)
+
+      self.canvas.create_text(x, y, text=label, justify="center")
+
+
+
+   def toggle_display_mode(self):
+      """
+      Invert the current mode for displaying labels with distance values on the canvas.
+      """
+      self.display_label = not self.display_label
+
+      if self.display_label:
+         notification_addition = "Display"
+      else:
+         notification_addition = "Do not display"
+
+      print("Switched mode: {} distances for lines on canvas.".format(notification_addition))
+
+
+
+
+
+
 
 
 
