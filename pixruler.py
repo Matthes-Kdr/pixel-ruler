@@ -15,6 +15,8 @@ Usage:
    - Press 'F5'-Key for draw a line as a reference scale. After drawing prompt the meant distance into the terminal (e.g. "50 mm"). All distances of the following lines will be converted into this scale as well. To reset scale: Press 'F5'-Key again and just click on the window.
 
    - Press "L"-Key to toggle mode for displaying distances on canvas
+   
+   - Press "Ctrl" + "Z" -Keys to remove the last drawned line
 
    - Press "esc" -Key to delete all lines on the canvas.
 """
@@ -59,10 +61,11 @@ def key_handler(event, line:DrawLine, canvas:tk.Canvas):
    """
    Check if any specific key is pressed.
    Keys with special meanings:
-      - F1 : for displaying help text in terminal
-      - F5 : for set a new scale reference
+      - F1 : to display help text in terminal
+      - F5 : to set a new scale reference
       - L  : to toggle mode for displaying labels with distance
-      - Escape : to clear canvas
+      - Ctrl + Z : to undo / remove the last drawned line from canvas
+      - Escape : to clear entire canvas
 
    Args:
        event (event): Event
@@ -80,14 +83,16 @@ def key_handler(event, line:DrawLine, canvas:tk.Canvas):
       line.watch_for_scale = True
       print("Draw the line for a distance which should be use as a known reference. For resetting / removing scale reference just click once to generate a line with zero distance...")
 
+
    elif event.keysym in ["L", "l"]:
       line.toggle_display_mode()
-
 
 
    elif event.keysym == "Escape":
       print("Clearing all lines...")
       canvas.delete("all")
+      line.last_line = None
+
    
 
 def define_keybindings(root:tk.Tk, canvas:tk.Canvas, line:DrawLine):
@@ -109,6 +114,8 @@ def define_keybindings(root:tk.Tk, canvas:tk.Canvas, line:DrawLine):
    # Bind the virtual F1 key to print the help-text to terminal:
    # pass line as well for updating flag-objectvariables if F5 has been pressed:
    root.bind("<Key>", lambda event: key_handler(event, line, canvas))
+
+   root.bind("<Control-z>", line.undo)
 
 
    # Start of line: (mouse-left-click)
