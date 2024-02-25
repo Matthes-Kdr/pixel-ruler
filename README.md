@@ -114,6 +114,6 @@ To start the script navigate to the folder with the files and run pixruler.
 
 - [X] Function to label each line with its distance
 
-- [ ] Function to use hotkey [Ctrl] + [Z] to remove only the last drawned line from canvas
+- [X] Function to use hotkey [Ctrl] + [Z] to remove only the last drawned line from canvas
 
 
