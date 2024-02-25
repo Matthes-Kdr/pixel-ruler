@@ -8,10 +8,13 @@ from math import hypot
 class DrawLine:
 
    def __init__(self, canvas):
+      self.canvas = canvas
       self.start  = None
       self.end    = None  
       self.line   = None
-      self.canvas = canvas
+      
+      self.last_line = None
+      self.last_label = None
       
       # For scale feature:
       self.watch_for_scale = False
@@ -243,7 +246,7 @@ class DrawLine:
 
 
       # Handle button release behaviour
-      self.canvas.create_line(self.start[0], self.start[1], x_temp_end, y_temp_end)
+      self.last_line = self.canvas.create_line(self.start[0], self.start[1], x_temp_end, y_temp_end)
 
 
       self.end = (x_temp_end, y_temp_end)
@@ -261,6 +264,26 @@ class DrawLine:
 
       if self.display_label:
          self.label_line(dist)
+
+
+
+   def undo(self, event):
+      """
+      Remove the last drawned line from canvas without clearing everything.
+      """
+      if self.last_line:
+
+         if self.last_label:
+            self.canvas.delete(self.last_label)
+         
+         self.canvas.delete(self.last_line)
+         print("removed last line from canvas...")
+
+         self.last_line = None
+         self.last_label = None
+
+
+
 
 
 
@@ -296,7 +319,7 @@ class DrawLine:
       label = str(round(dist, fractional_digits))
       label = "{}{}".format(label, unit)
 
-      self.canvas.create_text(x, y, text=label, justify="center")
+      self.last_label = self.canvas.create_text(x, y, text=label, justify="center")
 
 
 
@@ -315,17 +338,4 @@ class DrawLine:
 
 
 
-
-
-
-
-
-
-
-   # # OBSOLETE if additional parameter is passed directly via lambda-function:
-   # def onrelease_handler_1d(self, event):
-   #    self.onrelease_handler_general(event, lock=True)
-
-
-   # def onrelease_handler(self, event):
-   #    self.onrelease_handler_general(event, lock=False)
+   
