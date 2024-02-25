@@ -14,6 +14,8 @@ Usage:
 
    - Press 'F5'-Key for draw a line as a reference scale. After drawing prompt the meant distance into the terminal (e.g. "50 mm"). All distances of the following lines will be converted into this scale as well. To reset scale: Press 'F5'-Key again and just click on the window.
 
+   - Press "L"-Key to toggle mode for displaying distances on canvas
+
    - Press "esc" -Key to delete all lines on the canvas.
 """
 
@@ -57,13 +59,15 @@ def key_handler(event, line:DrawLine, canvas:tk.Canvas):
    """
    Check if any specific key is pressed.
    Keys with special meanings:
-      - F1
-      - F5
-      - Escape
+      - F1 : for displaying help text in terminal
+      - F5 : for set a new scale reference
+      - L  : to toggle mode for displaying labels with distance
+      - Escape : to clear canvas
 
    Args:
        event (event): Event
        line (DrawLine): Line-Object
+       canvas (tk.Canvas) : canvas object
    """
 
    if event.keysym == 'F1':
@@ -75,6 +79,10 @@ def key_handler(event, line:DrawLine, canvas:tk.Canvas):
       # Set a flag for line object:
       line.watch_for_scale = True
       print("Draw the line for a distance which should be use as a known reference. For resetting / removing scale reference just click once to generate a line with zero distance...")
+
+   elif event.keysym in ["L", "l"]:
+      line.toggle_display_mode()
+
 
 
    elif event.keysym == "Escape":

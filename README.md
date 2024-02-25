@@ -49,6 +49,13 @@ the drawned line will be printed on the terminal.
   - To update this scale: Press 'F5'-Key again and draw a new line as reference.
   - To reset (remove) this scale: Press 'F5'-Key again and just click on the window.
 
+- Display a label with display of all further drawned lines
+  - Press **'L'-Key** to toggle this mode on / off.
+  - When this mode is on, a label will be displays the distance of the last drawned line after releasing the mouse button
+  - The value is round to 1 decimal digit
+  - If a scale-reference has been provided, the label will displays the converted value instead of the value for pixels and the name of the unit will appears as well on the canvas 
+    - if no unit was provided, the default string is "user_defined_value". To prevent displaying this long unit, you can provide an own unit and just enter a single space when entering the scale reference.
+  
 - Clear window from all lines
    - Press **'esc'-Key** to delete all lines on the canvas.
    - a set scale reference will not be removed thereby.
@@ -76,6 +83,12 @@ The output in the terminal for these (yellow highlighted) lines is:
 - The following lines have been drawned from Maritim Hotel Köln to the Rhein.
 
 
+
+**Usage of labeled lines**
+
+![Usage of lines with labels](screenshots/usage_labels.png)
+
+
 # Installation and Prerequisites
 
 There is no need to install third-party-packages.
@@ -91,6 +104,8 @@ To start the script navigate to the folder with the files and run pixruler.
 
 - [ ] Function to sum (or/and subtract) the distances of multiple lines (e.g. while pressing "+" or "-" key)
 
-- [ ] Function to label each line with its distance
+- [X] Function to label each line with its distance
+
+- [ ] Function to use hotkey [Ctrl] + [Z] to remove only the last drawned line from canvas
 
 
