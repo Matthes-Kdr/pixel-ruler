@@ -24,7 +24,10 @@ class DrawLine:
 
       self.display_label = False
 
+      self.screenshot_dir = None
 
+
+      
    def distance(self, beg, end):
       """
       Calculate distance in pixels between start and end (Pythagoras)

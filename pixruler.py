@@ -21,13 +21,80 @@ Usage:
    - Press "esc" -Key to delete all lines on the canvas.
 """
 
+import os
 from sys import argv
 from drawLines import DrawLine
 import tkinter as tk
-
+from tkinter.filedialog import askdirectory
 
 
 DEBUG = 0 # If 1: window will not be transparent.
+
+
+
+
+
+
+def capture_screenshot(root:tk.Tk, canvas:tk.Canvas,line:DrawLine):
+   """
+   Capture a screenshot of the current region of the window 
+   and save it to a directory which is asked for by a fileDialoge.
+   By now the lines won't be captured at all, 
+   the window is just used as a region which could be moved to another region
+   while its size stays constant...
+
+   ### TODO: possibility to capture the content of the window 
+   """
+   
+
+   try:
+      import pyautogui
+   except ModuleNotFoundError("To capture screenshot the module 'pyautogui' must be installed! Please install it and try again."):
+      return
+   
+
+
+   w = canvas.winfo_width()
+   h = canvas.winfo_height()
+   
+   
+   x = canvas.winfo_rootx()
+   y = canvas.winfo_rooty()
+
+   if not line.screenshot_dir:
+      line.screenshot_dir = askdirectory(initialdir="Desktop")
+
+
+
+   # pyautogui.screenshot(save_path, region= (0,0,200,200))
+
+   print("! NOTE : When you are using multiple monitors, the screenshot function will only work at the primary monitor! Otherwise you will get a black rectangle!")
+
+   toggle_title_bar(root, True)
+   root.wm_attributes('-alpha', 0.1)
+   # However in this case even the widgets on the root will inherit the transparency.
+
+
+
+   img = pyautogui.screenshot(region= (x,y, w, h))
+   
+
+   number = 0
+   while True:
+      file_path = os.path.join(line.screenshot_dir, "screenshot_pixelruler_{}.png".format(str(number).zfill(4)))
+      if os.path.isfile(file_path):
+         number += 1
+      else:
+         break
+   
+
+   img.save(file_path)
+
+   toggle_title_bar(root, False)
+   root.wm_attributes('-alpha', 0.3)
+
+
+
 
 
 
@@ -41,11 +108,14 @@ def modify_window_visibility(root:tk.Tk):
    # Make the window translucent
    root.wait_visibility(root)
    root.configure(background='white')
-   root.title("PixelRuler (Press 'F1' for printing help in terminal)")
+   root.title("Resize window to relevant region. Toggle tittlebar: F11 / F12")
+   # root.overrideredirect(True)
    if DEBUG:
       return
    
-   root.wm_attributes('-alpha', 0.5)
+   root.wm_attributes('-alpha', 0.3)
+   
+   # root.wm_attributes('-alpha', 0.01)
 
    
 def show_help():
@@ -55,9 +125,13 @@ def show_help():
    print(__doc__)
 
 
+def toggle_title_bar(root:tk.Tk, val:bool):
+   
+   root.overrideredirect(val)
 
 
-def key_handler(event, line:DrawLine, canvas:tk.Canvas):
+
+def key_handler(event, line:DrawLine, canvas:tk.Canvas, root:tk.Tk):
    """
    Check if any specific key is pressed.
    Keys with special meanings:
@@ -75,6 +149,21 @@ def key_handler(event, line:DrawLine, canvas:tk.Canvas):
 
    if event.keysym == 'F1':
       show_help()
+
+
+   if event.keysym == 'F8':
+
+      capture_screenshot(root, canvas, line)
+
+
+   if event.keysym == 'F11':
+      toggle_title_bar(root, True)
+      root.wm_attributes('-alpha', 0.1)
+
+
+   if event.keysym == 'F12':
+      toggle_title_bar(root, False)
+      root.wm_attributes('-alpha', 0.3)
 
 
    elif event.keysym == "F5":
@@ -113,7 +202,7 @@ def define_keybindings(root:tk.Tk, canvas:tk.Canvas, line:DrawLine):
    
    # Bind the virtual F1 key to print the help-text to terminal:
    # pass line as well for updating flag-objectvariables if F5 has been pressed:
-   root.bind("<Key>", lambda event: key_handler(event, line, canvas))
+   root.bind("<Key>", lambda event: key_handler(event, line, canvas, root))
 
    root.bind("<Control-z>", line.undo)
 
@@ -147,6 +236,7 @@ def main():
 
    # Define the root window
    root = tk.Tk()
+   
    modify_window_visibility(root)
    canvas = tk.Canvas(root, width=200, height=200)
 
@@ -165,4 +255,9 @@ def main():
 
 
 if __name__ == '__main__':
+    
+    note_text = "This version is NOT FOR THE ACTUAL USAGE OF A RULER! It does only uses some of the implemented functions to generate a window to move and resize it as wished to capture screenshots with ALT + DRUCK (print) of this window. Herefore the  window has no title bar anymore , only a frame."
+    
+    print(note_text)
+    
     main()
