@@ -23,6 +23,8 @@
 
 A simple pixel ruler written in ('pure') Python, using Tk without further dependencies or third-party-packages.
 
+An exception of this approach is the extending function to capture screenshots of the current window. Herefore is the package `pysimplegui` necessary. If this package is not installed, the script won't break but just print a warning. so the basic functions can still be uaed even without that package.
+
 > This project is based on following repositiy: https://github.com/Kitchi/pixruler.git by Kitchi and has been modified to implement more functions.
 
 
