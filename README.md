@@ -42,21 +42,21 @@ the drawned line will be printed on the terminal.
 
 - Create horicontal or vertical lines
   -  Hold the **'Shift'-Key** while drawing to lock one dimension. This allows you to easily create horicontal or vertical lines. 
-  -  Which dimension will be locked depends on the current deltaX and deltaY in relation to the starting point: When deltaX is greater than deltaY the Y-coordinate will be locked which allows you to create horicontal lines. Otherwise the X-coordinate will be locked which allows you to create vertical lines.
+  -  Which dimension will be locked depends on the current deltaX and deltaY in relation to the starting point: When deltaX is greater than deltaY the Y-coordinate will be locked, which allows you to create horicontal lines. Otherwise the X-coordinate will be locked, which allows you to create vertical lines.
   
 
 - Use a scale as reference to determine real dimensions
-    - Press the **'F5'-Key** for draw a line as a reference scale. After drawing this line prompt the desired 'real' distance for this line into the terminal (e.g. "50"). Optional you can also promt an unit for this value by append this desired unit after a single whitespace (e.g. "50 mm"). For all further measurements this scale-reference will be used to calculate the converted  distance so that additional to the pixel distance this converted distance will be printed to the terminal, too.
+    - Press the **'F5'-Key** for drawing a line as a reference scale. After drawing this line, prompt the desired 'real' distance this line shall represent into the terminal (e.g. "50"). Optional you can also specify an unit for this value by appending this desired unit after a single whitespace after the value (e.g. "50 mm"). For all further measurements this scale-reference will be used to calculate the converted  distance so that additional to the pixel distance this converted distance will be printed to the terminal, too.
   - To update this scale: Press 'F5'-Key again and draw a new line as reference.
   - To reset (remove) this scale: Press 'F5'-Key again and just click on the window.
 
 
-- Display a label with display of all further drawned lines
+- Add a label to all further drawn line, displaying their (converted) lengths
   - Press **'L'-Key** to toggle this mode on / off.
-  - When this mode is on, a label will be displays the distance of the last drawned line after releasing the mouse button
+  - When this mode is active, a label will display the distance of the last drawned line after releasing the mouse button
   - The value is round to 1 decimal digit
-  - If a scale-reference has been provided, the label will displays the converted value instead of the value for pixels and the name of the unit will appears as well on the canvas 
-    - if no unit was provided, the default string is "user_defined_value". To prevent displaying this long unit, you can provide an own unit and just enter a single space when entering the scale reference.
+  - If a scale-reference has been provided, the label will display the converted value instead of the value for pixels and the name of the unit will appears on the canvas as well
+    - if no unit has been provided, the default string is "user_defined_value". To prevent displaying this long unit, you can provide an own unit and just enter a single space when entering the scale reference.
   
 
 - Undo the last drawing:
@@ -116,4 +116,9 @@ To start the script navigate to the folder with the files and run pixruler.
 
 - [X] Function to use hotkey [Ctrl] + [Z] to remove only the last drawned line from canvas
 
+- [ ] Extend this functionality with a longer history, so that  using the hotkey [Ctrl] + [Z] can  remove the last drawned, but also the second-last, third-last, ... ...-last drawned line from canvas (history)
 
+- [ ] *This is only an idea - but I could imagine that this can't be done in 'pure python' which I think is a great Pro of this entire project. But still:* Capture a screenshot of the area of the window with all drawned lines but with a fully transparent window background so that the window under the pixelruler-window will be catched with the lines as a sort of overlay... (if that is understandable?)
+
+
+&#9888; Sorry if there are some poor English passages in the text ;-) Feel free to correct mistakes and weird sentences - I really would appreciate that :-)
